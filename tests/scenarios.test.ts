@@ -1,24 +1,27 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import { PostingsService } from '../src/services/PostingsService';
 import { FinanceEngine } from '../src/services/FinanceEngine';
 import { JournalEntryModel } from '../src/models/JournalEntry';
 
-// Jest kutish vaqtini 30 soniyaga oshirish (MongoDB Atlas ulanishi va tozalanishi uchun)
 jest.setTimeout(30000);
 
 describe('Buxgalteriya Test Stsenariylari (5.1 - 5.5)', () => {
+  let mongoServer: MongoMemoryServer;
 
   beforeAll(async () => {
-    const mongoUri = process.env.MONGO_URI;
-    if (!mongoUri) {throw new Error('MONGO_URI .env faylida topilmadi!');}
+    // In-Memory MongoDB instansiyasini yaratamiz
+    mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
     await mongoose.connect(mongoUri);
   });
 
   afterAll(async () => {
     await mongoose.connection.dropDatabase();
     await mongoose.disconnect();
+    await mongoServer.stop();
   });
 
   beforeEach(async () => {
@@ -27,10 +30,8 @@ describe('Buxgalteriya Test Stsenariylari (5.1 - 5.5)', () => {
 
   // 5.1. Oldindan to'lov
   test('5.1 Oldindan to\'lov stsenariysi', async () => {
-    // 2026-01-10: 1 800 000 so'm (Jan, Feb, Mar)
     await PostingsService.recordStudentPayment(new Date('2026-01-10'), 1800000, 'BANK', 'Student 3 month prepayment');
     
-    // Oy oxiri daromad tan olish
     await PostingsService.recognizeTuitionRevenue(new Date('2026-01-31'), 600000);
     await PostingsService.recognizeTuitionRevenue(new Date('2026-02-28'), 600000);
     await PostingsService.recognizeTuitionRevenue(new Date('2026-03-31'), 600000);
@@ -56,10 +57,7 @@ describe('Buxgalteriya Test Stsenariylari (5.1 - 5.5)', () => {
 
   // 5.2. Ish haqi
   test('5.2 Ish haqi stsenariysi', async () => {
-    // Jan 31: Ish haqi hisoblandi (8,000,000)
     await PostingsService.accrueSalary(new Date('2026-01-31'), 8000000);
-    
-    // Feb 05: Ish haqi to'landi
     await PostingsService.paySalary(new Date('2026-02-05'), 8000000, 'BANK');
 
     const janPNL = await FinanceEngine.getProfitAndLoss(2026, 1);
@@ -99,10 +97,7 @@ describe('Buxgalteriya Test Stsenariylari (5.1 - 5.5)', () => {
 
   // 5.4. Kredit to'lovi
   test('5.4 Kredit to\'lovi stsenariysi', async () => {
-    // Feb 01: Kredit olindi 200M
     await PostingsService.receiveLoan(new Date('2026-02-01'), 200000000);
-
-    // Feb 20: Birinchi to'lov (3M foiz, 9M asosiy qarz)
     await PostingsService.payLoanInstallment(new Date('2026-02-20'), 9000000, 3000000);
 
     const febPNL = await FinanceEngine.getProfitAndLoss(2026, 2);
@@ -112,8 +107,8 @@ describe('Buxgalteriya Test Stsenariylari (5.1 - 5.5)', () => {
     expect(febBS.liabilities.bankLoans).toBe(191000000);
 
     const febCF = await FinanceEngine.getCashFlow(2026, 2);
-    expect(febCF.financingCashFlow).toBe(191000000); // 200M received - 9M principal paid
-    expect(febCF.operatingCashFlow).toBe(-3000000); // -3M interest
+    expect(febCF.financingCashFlow).toBe(191000000);
+    expect(febCF.operatingCashFlow).toBe(-3000000);
   });
 
   // 5.5. Jihoz xaridi
