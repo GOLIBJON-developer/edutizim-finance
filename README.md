@@ -1,6 +1,3 @@
-Mana loyihangiz uchun tayyorlangan, xalqaro dasturlash standartlariga javob beradigan va GitHub uchun moslashtirilgan **`README.md`** fayli kodi:
-
-```markdown
 # 🎓 EduTizim.uz — Moliya va Buxgalteriya Moduli
 
 Ushbu loyiha o'quv markazlarining moliyaviy faoliyatini avtomatlashtirish, har qanday tranzaksiyani xalqaro buxgalteriya standartlari asosida yuritish hamda uchta asosiy moliyaviy hisobotni (**P&L**, **Cash Flow**, **Balance Sheet**) 100% matematik aniqlikda shakllantirish uchun mo'ljallangan to'liq (Full-Stack) tizimdir.
@@ -62,7 +59,6 @@ edutizim-finance/
 ├── tsconfig.json             # TypeScript sozlamalari
 └── package.json              # Backend bog'liqliklari va skriptlar
 
-```
 
 ---
 
