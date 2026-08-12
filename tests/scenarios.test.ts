@@ -5,6 +5,9 @@ import { PostingsService } from '../src/services/PostingsService';
 import { FinanceEngine } from '../src/services/FinanceEngine';
 import { JournalEntryModel } from '../src/models/JournalEntry';
 
+// Jest kutish vaqtini 30 soniyaga oshirish (MongoDB Atlas ulanishi va tozalanishi uchun)
+jest.setTimeout(30000);
+
 describe('Buxgalteriya Test Stsenariylari (5.1 - 5.5)', () => {
 
   beforeAll(async () => {
