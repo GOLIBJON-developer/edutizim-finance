@@ -1,8 +1,4 @@
----
 
-### `ai-log.md`
-
-```markdown
 # AI Workflows & Prompt Log
 
 Ushbu loyihani yaratishda sun'iy intellekt (AI) arxitektura rejalashtiruvchisi hamda kod va test generatsiyasi yordamchisi sifatida ishlatildi.
