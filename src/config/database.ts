@@ -1,3 +1,6 @@
+import dns from 'dns';
+// DNS SRV so'rovi (Atlas) xatoligini oldini olish
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 import mongoose from 'mongoose';
 
 export const connectDB = async (): Promise<void> => {

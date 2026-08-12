@@ -1,10 +1,16 @@
+
+import dotenv from 'dotenv';
+dotenv.config();
+
+import dns from 'dns';
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { connectDB } from './config/database';
 import financeRoutes from './routes/finance.routes';
 
-dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
