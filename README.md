@@ -59,7 +59,7 @@ edutizim-finance/
 ├── tsconfig.json             # TypeScript sozlamalari
 └── package.json              # Backend bog'liqliklari va skriptlar
 
-
+```
 ---
 
 ## 🚀 Ishga Tushirish Qo'llanmasi
