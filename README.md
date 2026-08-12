@@ -13,3 +13,17 @@ Biz **Double-Entry General Ledger (Ikki yo'lama buxgalteriya yozuvi)** modelini 
 1. **Kutubxonalarni o'rnatish:**
    ```bash
    npm install
+
+## Men MongoDB Atlasdan foydalandim
+ ```bash
+ # 1. MongoDB Atlas'ga 3 yillik ma'lumotlarni yozish
+npm run seed
+
+# 2. Atlas'dagi ma'lumotlar bo'yicha 3 ta hisobot va 0 farqni tekshirish
+npm run reconcile
+
+# 3. Avtomatik testlarni Atlas test bazasida yurgizish
+npm test
+
+# 4. Serverni ishga tushirish
+npm run dev

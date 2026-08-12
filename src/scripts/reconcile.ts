@@ -1,9 +1,14 @@
+import dotenv from 'dotenv';
+dotenv.config();
+import dns from 'dns';
+dns.setServers(['8.8.8.8', '8.8.4.4']); // Google DNS o'rnatish
 import mongoose from 'mongoose';
 import { FinanceEngine } from '../services/FinanceEngine';
 import { JournalEntryModel } from '../models/JournalEntry';
 
 async function reconcile() {
-  const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/edutizim_finance';
+  const mongoUri = process.env.MONGO_URI;
+  if (!mongoUri) {throw new Error('MONGO_URI .env faylida topilmadi!');}
   await mongoose.connect(mongoUri);
 
   // Bazadagi eng birinchi va eng oxirgi tranzaksiya sanasini topamiz

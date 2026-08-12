@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import mongoose from 'mongoose';
 import { PostingsService } from '../src/services/PostingsService';
 import { FinanceEngine } from '../src/services/FinanceEngine';
@@ -6,7 +8,8 @@ import { JournalEntryModel } from '../src/models/JournalEntry';
 describe('Buxgalteriya Test Stsenariylari (5.1 - 5.5)', () => {
 
   beforeAll(async () => {
-    const mongoUri = process.env.MONGO_URI_TEST || 'mongodb://127.0.0.1:27017/edutizim_test';
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {throw new Error('MONGO_URI .env faylida topilmadi!');}
     await mongoose.connect(mongoUri);
   });
 

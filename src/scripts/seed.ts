@@ -1,9 +1,15 @@
+import dotenv from 'dotenv';
+dotenv.config();
+import dns from 'dns';
+dns.setServers(['8.8.8.8', '8.8.4.4']); // Google DNS o'rnatish
+
 import mongoose from 'mongoose';
 import { JournalEntryModel } from '../models/JournalEntry';
 import { PostingsService } from '../services/PostingsService';
 
 async function seed() {
-  const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/edutizim_finance';
+  const mongoUri = process.env.MONGO_URI;
+  if (!mongoUri) {throw new Error('MONGO_URI .env faylida topilmadi!');}
   await mongoose.connect(mongoUri);
   await JournalEntryModel.deleteMany({});
 
